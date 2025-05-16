@@ -12,6 +12,8 @@ class Customer:
             raise TypeError("Name must be a string")
         if value == "":
             raise ValueError("Name cannot be empty")
+        if len(value) > 15:
+            raise ValueError("Name cannot be longer than 15 characters")
         self._name = value
 
     def orders(self):

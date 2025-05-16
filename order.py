@@ -11,8 +11,8 @@ class Order:
             raise TypeError("coffee must be a Coffee instance")
         if not isinstance(price, (int, float)):
             raise TypeError("price must be a number")
-        if not (0.5 < price < 15.0):
-            raise ValueError("price must be greater than 0.5 and less than 15.0")
+        if not (1.0 <= price <= 10.0):
+            raise ValueError("price must be between 1.0 and 10.0 inclusive")
 
         self.customer = customer
         self.coffee = coffee
