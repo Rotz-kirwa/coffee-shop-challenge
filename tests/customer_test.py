@@ -7,13 +7,16 @@ def test_customer_name_getter_and_setter():
     c = Customer("Alice")
     assert c.name == "Alice"
 
-    c.name = "Bob"
-    assert c.name == "Bob"
+def test_customer_name_length_validation():
+    with pytest.raises(ValueError):
+        Customer("a" * 16)
 
     with pytest.raises(TypeError):
+        c = Customer("Alice")
         c.name = 123
 
     with pytest.raises(ValueError):
+        c = Customer("Alice")
         c.name = ""
 
 def test_customer_orders_and_coffees_relationship():

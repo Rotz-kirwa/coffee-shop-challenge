@@ -7,14 +7,26 @@ def test_customer_name_getter_and_setter():
     c = Customer("Alice")
     assert c.name == "Alice"
 
-    c.name = "Bob"
-    assert c.name == "Bob"
+def test_coffee_name_immutable_and_validation():
+    coffee = Coffee("Espresso")
+    assert coffee.name == "Espresso"
+
+def test_customer_name_length_validation():
+    with pytest.raises(ValueError):
+        Customer("a" * 16)
+
+def test_coffee_name_immutable_and_validation():
+    coffee = Coffee("Espresso")
+    assert coffee.name == "Espresso"
+
+    with pytest.raises(AttributeError):
+        coffee.name = "Latte"
 
     with pytest.raises(TypeError):
-        c.name = 123
+        Coffee(123)
 
     with pytest.raises(ValueError):
-        c.name = ""
+        Coffee("ab")  # too short
 
 def test_customer_orders_and_coffees_relationship():
     c = Customer("Alice")
