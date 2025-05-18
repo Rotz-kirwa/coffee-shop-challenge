@@ -1,5 +1,10 @@
+from debug import setup_logger
+
+logger = setup_logger()
+
 class Customer:
     def __init__(self, name):
+        logger.debug(f"Initializing Customer with name: {name}")
         self.name = name  # invokes setter
 
     @property
@@ -8,6 +13,7 @@ class Customer:
 
     @name.setter
     def name(self, value):
+        logger.debug(f"Setting Customer name to: {value}")
         if not isinstance(value, str):
             raise TypeError("Name must be a string")
         if value == "":
@@ -21,19 +27,25 @@ class Customer:
         return [order for order in Order._all_orders if order.customer == self]
 
     def coffees(self):
-        return [order.coffee for order in self.orders()]
+        # Return unique list of Coffee instances
+        coffees = set()
+        for order in self.orders():
+            coffees.add(order.coffee)
+        return list(coffees)
 
     def create_order(self, coffee, price):
+        logger.debug(f"Customer {self.name} creating order for coffee {coffee.name} at price {price}")
         from order import Order
         return Order(self, coffee, price)
 
     @classmethod
     def most_aficionado(cls, coffee):
+        logger.debug(f"Finding most aficionado for coffee: {coffee.name}")
         from order import Order
-        counts = {}
+        spending = {}
         for order in Order._all_orders:
             if order.coffee == coffee:
-                counts[order.customer] = counts.get(order.customer, 0) + 1
-        if not counts:
+                spending[order.customer] = spending.get(order.customer, 0) + order.price
+        if not spending:
             return None
-        return max(counts, key=counts.get)
+        return max(spending, key=spending.get)

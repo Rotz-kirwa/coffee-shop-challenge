@@ -1,5 +1,8 @@
 from customer import Customer
 from coffee import Coffee
+from debug import setup_logger
+
+logger = setup_logger()
 
 class Order:
     _all_orders = []
@@ -13,6 +16,7 @@ class Order:
             raise TypeError("price must be a number")
         if not (1.0 <= price <= 10.0):
             raise ValueError("price must be between 1.0 and 10.0 inclusive")
+        logger.debug(f"Creating Order: customer={customer.name}, coffee={coffee.name}, price={price}")
 
         self.customer = customer
         self.coffee = coffee
@@ -27,4 +31,3 @@ class Order:
     @price.setter
     def price(self, value):
         raise AttributeError("price attribute is read-only")
-
